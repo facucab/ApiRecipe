@@ -3,6 +3,9 @@ package com.recipe.RecipeBook.mapper;
 import com.recipe.RecipeBook.dto.RecipeDTO;
 import com.recipe.RecipeBook.model.RecipeModel;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RecipeMapper {
 
     // RecipeDTO => RecipeModel
@@ -26,4 +29,16 @@ public class RecipeMapper {
         );
     }
 
+
+    // List<RecipeModel> ->  List<RecipeDTO>
+
+    public static List<RecipeDTO> ListModelToDto(List<RecipeModel> listModel)
+    {
+        List<RecipeDTO> ListRecipeDTO =  new ArrayList<>();
+        for (RecipeModel item: listModel )
+        {
+            ListRecipeDTO.add(ModelToDTO(item));
+        }
+        return  ListRecipeDTO;
+    }
 }

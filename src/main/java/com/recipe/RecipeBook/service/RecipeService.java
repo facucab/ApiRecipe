@@ -2,12 +2,16 @@ package com.recipe.RecipeBook.service;
 
 import com.recipe.RecipeBook.dto.RecipeDTO;
 import com.recipe.RecipeBook.exception.RecipeDataIntegrityException;
+import com.recipe.RecipeBook.exception.RecipeNotFound;
 import com.recipe.RecipeBook.mapper.RecipeMapper;
 import com.recipe.RecipeBook.model.RecipeModel;
 import com.recipe.RecipeBook.repository.RecipeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class RecipeService {
@@ -31,6 +35,22 @@ public class RecipeService {
         }
 
         return  r;
+    }
+
+
+    public List<RecipeDTO> AllRecipe()
+    {
+        return RecipeMapper.ListModelToDto(
+                    recipeRepository.findAll()
+                );
+    }
+
+    public RecipeDTO SelectRecipeById(long id) throws RecipeNotFound
+    {
+        RecipeModel recipeModel = recipeRepository.findById(id).orElseThrow(
+                () -> new RecipeNotFound("Recipe Not Found")
+        );
+        return  RecipeMapper.ModelToDTO(recipeModel);
     }
 
 }

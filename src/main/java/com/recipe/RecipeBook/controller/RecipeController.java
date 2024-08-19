@@ -7,6 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequestMapping("/recipe")
 public class RecipeController {
@@ -23,5 +26,19 @@ public class RecipeController {
                  .body(
                          recipeService.CreateRecipe(recipe)
                  );
+     }
+
+
+     @GetMapping("/all")
+    public List<RecipeDTO> AllRecipe()
+     {
+         return  recipeService.AllRecipe();
+     }
+
+     @GetMapping("{id}")
+    public RecipeDTO SelectRecipeById(@PathVariable long id)
+     {
+
+         return recipeService.SelectRecipeById(id);
      }
 }
