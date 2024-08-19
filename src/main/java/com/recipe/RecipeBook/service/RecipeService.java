@@ -53,4 +53,39 @@ public class RecipeService {
         return  RecipeMapper.ModelToDTO(recipeModel);
     }
 
+    public RecipeDTO UpdateById(long id, RecipeDTO recipeDTO)
+    {
+        RecipeModel recipeModelDB = recipeRepository.findById(id).orElseThrow(
+                () -> new RecipeNotFound("Recipe Not Found")
+        );
+        //
+        recipeModelDB.setTitle(recipeDTO.getTitle());
+        recipeModelDB.setDescription(recipeDTO.getDescription() );
+        recipeModelDB.setDuration(recipeDTO.getDuration());
+        recipeModelDB.setCategory(recipeDTO.getCategory());
+
+        //
+        try
+        {
+            recipeRepository.save(recipeModelDB);
+        }
+        catch (DataIntegrityViolationException e)
+        {
+            throw  new RecipeDataIntegrityException();
+        }
+        return recipeDTO;
+    }
+
+
+    public List<RecipeDTO> SearchByCategory(String category)
+    {
+        return  RecipeMapper.ListModelToDto(
+                    recipeRepository.findByCategory(category)
+                );
+    }
+
+    public List<String> AllCategory()
+    {
+        return recipeRepository.findDistinctCategory();
+    }
 }

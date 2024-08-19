@@ -41,4 +41,22 @@ public class RecipeController {
 
          return recipeService.SelectRecipeById(id);
      }
+
+     @PutMapping("/update")
+    public RecipeDTO UpdateById(@RequestParam("id") long id, @RequestBody RecipeDTO r)
+     {
+         return recipeService.UpdateById(id, r);
+     }
+
+     @GetMapping("/search/{category}")
+    public List<RecipeDTO> SearchByCategory(@PathVariable String category)
+     {
+         return recipeService.SearchByCategory(category);
+     }
+
+     @GetMapping("/categorys")
+    public List<String> AllCategory()
+     {
+         return recipeService.AllCategory();
+     }
 }
