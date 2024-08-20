@@ -58,13 +58,11 @@ public class RecipeService {
         RecipeModel recipeModelDB = recipeRepository.findById(id).orElseThrow(
                 () -> new RecipeNotFound("Recipe Not Found")
         );
-        //
+
         recipeModelDB.setTitle(recipeDTO.getTitle());
         recipeModelDB.setDescription(recipeDTO.getDescription() );
         recipeModelDB.setDuration(recipeDTO.getDuration());
         recipeModelDB.setCategory(recipeDTO.getCategory());
-
-        //
         try
         {
             recipeRepository.save(recipeModelDB);
@@ -87,5 +85,30 @@ public class RecipeService {
     public List<String> AllCategory()
     {
         return recipeRepository.findDistinctCategory();
+    }
+
+    public RecipeDTO DeleteById(Long id)
+    {
+        RecipeModel recipeDB = recipeRepository.findById(id).orElseThrow(
+                () -> new RecipeNotFound("Recipe Not Found")
+        );
+
+        recipeRepository.deleteById(id);
+        return RecipeMapper.ModelToDTO(recipeDB);
+    }
+
+    public List<RecipeDTO> FilterByDuration(Integer max, Integer min)
+    {
+        if(max == null) {
+            return RecipeMapper.ListModelToDto(
+                    recipeRepository.FilterByDurationMin(min)
+            );
+        }
+
+        return  RecipeMapper.ListModelToDto(
+                recipeRepository.FilterByDurationMaxMin(max, min)
+        );
+
+
     }
 }

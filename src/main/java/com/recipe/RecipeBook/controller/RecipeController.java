@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/recipe")
@@ -58,5 +59,17 @@ public class RecipeController {
     public List<String> AllCategory()
      {
          return recipeService.AllCategory();
+     }
+
+     @DeleteMapping("delete/{id}")
+    public RecipeDTO DeleteById(@PathVariable long id)
+     {
+         return recipeService.DeleteById(id);
+     }
+
+     @GetMapping("/filter")
+    public List<RecipeDTO> FilterByDuration(@RequestParam(value = "max", required = false) Integer max, @RequestParam("min") Integer min)
+     {
+         return recipeService.FilterByDuration(max, min);
      }
 }
